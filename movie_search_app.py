@@ -1,10 +1,17 @@
 #Version 1.0
 
+import time
+
+import json
+
 from tkinter import *
+
+
 
 root = Tk()
 
 root.geometry('1000x2500')  # size of screen
+
 
 title_var = StringVar()
 imdbid_var = StringVar()
@@ -16,53 +23,48 @@ def homepage():
     frame1 = Frame(root, width=1000, height=2500, bg='white')
     frame1.place(x=0, y=0)
 
-
     textTitle = Entry(frame1, textvariable = title_var, bd =5)
-    textTitle.place(x=150, y=105)
+    textTitle.place(x=150, y=75)
 
-    buttonTitle = Button(frame1, text='Send Request (title)',command=getTitle)
-    buttonTitle.place(x=350, y=105)
+    buttonTitle = Button(frame1, text='Get Ticket',command=getTitle)
+    buttonTitle.place(x=350, y=75)
 
-    textIMDBID = Entry(frame1, textvariable = imdbid_var, bd =5)
-    textIMDBID.place(x=150, y=145)
-
-    buttonIMDBID = Button(frame1, text='Send Request (IMDBID)',command=getIMDBID)
-    buttonIMDBID.place(x=350, y=145)
 
     homepageName = Label(frame1, text ="Movie Ticket Counter ")
-    homepageName.place(x=300, y=20)
+    homepageName.place(x=200, y=20)
 
-    instructions1 = Label(frame1, text ="Welcome! Please enter either your desired movie title or IMDBID and press the corresponding Send Request.")
-    instructions1.place(x=30, y=40)
-
-    instructions2 = Label(frame1,text="Then press Print your ticket and and we will give you your information!")
-    instructions2.place(x=150, y=60)
-
-
-    buttonPrintTicket = Button(frame1, text='Print your Ticket', command=moviePage)
-    buttonPrintTicket.place(x=350, y=185)
-
-    buttonWrongTest = Button(frame1, text='oops', command=errorPage)
-    buttonWrongTest.place(x=200, y=185)
+    instructions = Label(frame1, text ="Welcome! Please enter either your desired movie title or IMDBID, and we will give you your ticket!")
+    instructions.place(x=30, y=40)
 
 
 def getTitle():
     title = title_var.get()
 
-    titleURL = "http://www.omdbapi.com/?t=" + title + "&apikey=7b779361"
+    if title[0] == "t" and  title[1] == "t":
+        URL = "http://www.omdbapi.com/?i=" + title + "&apikey=7b779361"
 
-    print(titleURL)
+    else:
+        URL = "http://www.omdbapi.com/?t=" + title + "&apikey=7b779361"
 
-    "Connect to internet - get JSON file, dump text to movieData"
 
-def getIMDBID():
-    IMDBID = imdbid_var.get()
+    f = open('movie_request.txt', 'w')
+    f.write(URL)
+    f.close()
 
-    imdbidURL = "http://www.omdbapi.com/?i=" + IMDBID + "&apikey=7b779361"
+    time.sleep(3)
 
-    print(imdbidURL)
 
-    "Connect to internet - get JSON file, dump text to movieData"
+    #Partner Microservice occurs here - it will use the URL to search for a JSON file and then return said file.
+
+
+    with open('movie_data.json', 'r') as infile:
+        movieData = json.load(infile)
+
+
+    if movieData["Response"] == "True":
+        return moviePage()
+    else:
+        return errorPage()
 
 
 def moviePage():
@@ -74,8 +76,6 @@ def moviePage():
 
     moviePageName = Label(frame2, text= "(movie info will be here) ")
     moviePageName.place(x=200, y=20)
-
-
 
 
 def errorPage():
@@ -92,8 +92,3 @@ def errorPage():
 homepage()
 
 root.mainloop()
-
-
-
-
-
