@@ -13,7 +13,6 @@ In your code you need to have socket imported and set up as well as a Host and a
 			import socket as sock
 			HOST = '127.0.0.1'
 			PORT = #Choose a port
-
 			socket = sock.socket(sock.AF_INET, sock.SOCK_STREAM)
 			socket.connect((HOST, PORT))
 
@@ -28,10 +27,12 @@ RECEIVING DATA:
 			message = str(socket.recv(1024))
 
 Trim your variable string so that the path will not have any unnecessary artifacts of the sent message. In this example,
-		Example:
-			path = message[2:-1]
 
-			(In this example, message = b’——‘ and path = —— )
+Example:
+	path = message[2:-1]
+
+In this example, 
+ message = b’——‘ and path = —— 
 
 Use this path variable to locate the newly downloaded image. Run image_socket.py. and then run your program!
 
