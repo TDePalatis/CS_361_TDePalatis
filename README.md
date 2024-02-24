@@ -1,4 +1,4 @@
-# CS_361_TDePalatis
+# image_socket.py README
 
 
 
