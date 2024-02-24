@@ -41,6 +41,8 @@ RECEIVING DATA:
 
 3. Use this path variable to locate the newly downloaded image. Run image_socket.py. and then run your program!
 
+
+
 [image_socket.py UML.pdf](https://github.com/TDePalatis/CS_361_TDePalatis/files/14391200/image_socket.py.UML.pdf)
 
 
